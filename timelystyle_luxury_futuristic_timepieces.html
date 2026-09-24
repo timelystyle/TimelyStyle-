@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TimelyStyle | Luxury & Futuristic Timepieces</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        obsidian: '#0a0a0c',
+                        surface: '#121318',
+                        'surface-card': '#181a22',
+                        chrome: '#e2e8f0',
+                        'chrome-accent': '#94a3b8',
+                        'glow-silver': '#818cf8',
+                        emerald: {
+                            500: '#10b981',
+                            600: '#059669',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace']
+                    },
+                    boxShadow: {
+                        'chrome-glow': '0 0 25px -5px rgba(226, 232, 240, 0.25)',
+                        'accent-glow': '0 0 30px -5px rgba(129, 140, 248, 0.3)',
+                        'emerald-glow': '0 0 20px -3px rgba(16, 185, 129, 0.4)',
+                        'glass-inset': 'inset 0 1px 1px 0 rgba(255, 255, 255, 0.15)'
+                    },
+                    backgroundImage: {
+                        'chrome-gradient': 'linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #64748b 100%)',
+                        'metallic-border': 'linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.05) 100%)',
+                        'hero-glow': 'radial-gradient(circle at center, rgba(129, 140, 248, 0.15) 0%, rgba(10, 10, 12, 0) 70%)'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts & FontAwesome Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Three.js for 3D Futuristic Watch View -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Custom Embedded Styles -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a0c;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        /* Custom Metallic Glowing Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0c;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+
+        /* Futuristic Glassmorphism */
+        .glass-panel {
+            background: rgba(18, 19, 24, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-card {
+            background: rgba(24, 26, 34, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(226, 232, 240, 0.3);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), 0 0 20px 0 rgba(226, 232, 240, 0.15);
+        }
+
+        .chrome-text {
+            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #64748b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .glow-text-emerald {
+            text-shadow: 0 0 12px rgba(16, 185, 129, 0.6);
+        }
+
+        /* Keyframe Animations */
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(1deg); }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+
+        .animate-float {
+            animation: floatSlow 6s ease-in-out infinite;
+        }
+
+        .animate-pulse-glow {
+            animation: pulseGlow 4s ease-in-out infinite;
+        }
+
+        /* Custom Scrollbar for Chat Modal */
+        .chat-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .chat-scroll::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-slate-700 selection:text-white">
+
+    <!-- STICKY NAVIGATION BAR -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-white/10 transition-all duration-300" id="mainHeader">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Brand Logo -->
+                <a href="#home" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-slate-700 via-slate-200 to-white p-[1px] shadow-chrome-glow">
+                        <div class="w-full h-full bg-obsidian rounded-[11px] flex items-center justify-center group-hover:bg-slate-900 transition-colors">
+                            <i class="fa-solid fa-clock text-white text-lg group-hover:scale-110 transition-transform duration-300"></i>
+                        </div>
+                    </div>
+                    <span class="text-2xl font-extrabold tracking-wider chrome-text uppercase">
+                        Timely<span class="text-slate-400 font-light">Style</span>
+                    </span>
+                </a>
+
+                <!-- Desktop Nav Links -->
+                <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+                    <a href="#home" class="hover:text-white transition-colors py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-white hover:after:w-full after:transition-all">Home</a>
+                    <a href="#collections" class="hover:text-white transition-colors py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-white hover:after:w-full after:transition-all">Collections</a>
+                    <a href="#ai-assistant" class="hover:text-white transition-colors py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-white hover:after:w-full after:transition-all flex items-center gap-1.5">
+                        <i class="fa-solid fa-sparkles text-indigo-400 text-xs"></i> TimelyAI
+                    </a>
+                    <a href="#about" class="hover:text-white transition-colors py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-white hover:after:w-full after:transition-all">About Us</a>
+                    <a href="#contact" class="hover:text-white transition-colors py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-white hover:after:w-full after:transition-all">Contact</a>
+                </nav>
+
+                <!-- Action Buttons & Cart -->
+                <div class="flex items-center gap-4">
+                    <!-- WhatsApp Direct Quick Contact -->
+                    <a href="https://wa.me/message/7YYF46SE7MTMM1" target="_blank" class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 text-xs font-semibold tracking-wide transition-all shadow-emerald-glow">
+                        <i class="fa-brands fa-whatsapp text-sm"></i>
+                        <span>WhatsApp VIP</span>
+                    </a>
+
+                    <!-- Shopping Cart Trigger -->
+                    <button id="cartBtn" class="relative p-3 rounded-xl bg-surface border border-white/10 hover:border-white/30 text-slate-200 transition-all hover:scale-105 active:scale-95">
+                        <i class="fa-solid fa-bag-shopping text-lg"></i>
+                        <span id="cartBadge" class="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-indigo-600 text-white text-[10px] font-bold flex items-center justify-center hidden border border-obsidian">0</span>
+                    </button>
+
+                    <!-- Mobile Menu Button -->
+                    <button id="mobileMenuBtn" class="md:hidden p-3 rounded-xl bg-surface border border-white/10 text-slate-200 hover:text-white">
+                        <i class="fa-solid fa-bars text-lg" id="menuIcon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Navigation -->
+        <div id="mobileDrawer" class="hidden md:hidden glass-panel border-b border-white/10 px-6 py-6 space-y-4">
+            <a href="#home" class="mobile-link block text-lg font-medium text-slate-200 hover:text-white">Home</a>
+            <a href="#collections" class="mobile-link block text-lg font-medium text-slate-200 hover:text-white">Collections</a>
+            <a href="#ai-assistant" class="mobile-link block text-lg font-medium text-indigo-400 hover:text-indigo-300 flex items-center gap-2">
+                <i class="fa-solid fa-sparkles text-xs"></i> TimelyAI Assistant
+            </a>
+            <a href="#about" class="mobile-link block text-lg font-medium text-slate-200 hover:text-white">About Us</a>
+            <a href="#contact" class="mobile-link block text-lg font-medium text-slate-200 hover:text-white">Contact</a>
+            <div class="pt-4 border-t border-white/10">
+                <a href="https://wa.me/message/7YYF46SE7MTMM1" target="_blank" class="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-emerald-600 text-white font-semibold text-sm">
+                    <i class="fa-brands fa-whatsapp text-base"></i> Order via WhatsApp
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <!-- HERO SECTION -->
+        <section id="home" class="relative min-h-[90vh] flex items-center justify-center py-12 lg:py-20 overflow-hidden bg-hero-glow">
+            <!-- Background Ambient Glow Spheres -->
+            <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none animate-pulse-glow"></div>
+            <div class="absolute bottom-10 right-10 w-72 h-72 bg-slate-400/10 rounded-full blur-[100px] pointer-events-none"></div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    
+                    <!-- Text Content Column -->
+                    <div class="lg:col-span-7 space-y-8 text-center lg:text-left">
+                        
+                        <!-- Top Tagline Badge -->
+                        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-panel border border-white/15 text-xs sm:text-sm font-semibold tracking-wider text-slate-300 uppercase">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                            <span>Cash On Delivery • All Pakistan Delivery</span>
+                        </div>
+
+                        <!-- Main Brand Title Statement -->
+                        <div class="space-y-3">
+                            <h1 class="text-4xl sm:text-6xl xl:text-7xl font-black uppercase tracking-tight leading-none">
+                                <span class="block text-white">TIME <span class="text-indigo-400 font-thin">×</span> STYLE</span>
+                                <span class="block chrome-text mt-1"><span class="text-indigo-400 font-thin">×</span> YOU</span>
+                            </h1>
+                            <p class="text-base sm:text-lg text-slate-400 max-w-2xl font-normal leading-relaxed mx-auto lg:mx-0">
+                                Futuristic craftsmanship meets timeless luxury. Designed with precision obsidian chassis, sapphire crystal, and high-precision mechanical motion. Delivered directly to your doorstep anywhere in Pakistan.
+                            </p>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                            <a href="#collections" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-white text-obsidian font-bold text-sm tracking-wider uppercase hover:bg-slate-200 transition-all duration-300 shadow-chrome-glow hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
+                                <span>Explore Collection</span>
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </a>
+                            <a href="https://wa.me/message/7YYF46SE7MTMM1" target="_blank" class="w-full sm:w-auto px-8 py-4 rounded-xl glass-panel border border-emerald-500/40 text-emerald-400 font-bold text-sm tracking-wider uppercase hover:bg-emerald-500/10 transition-all duration-300 hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
+                                <i class="fa-brands fa-whatsapp text-lg"></i>
+                                <span>Order On WhatsApp</span>
+                            </a>
+                        </div>
+
+                        <!-- Value Proposition Features -->
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-6 border-t border-white/10">
+                            <div class="flex items-center gap-3">
+                                <div class="w-9 h-9 rounded-lg bg-surface border border-white/10 flex items-center justify-center text-indigo-400">
+                                    <i class="fa-solid fa-truck-fast"></i>
+                                </div>
+                                <div class="text-left">
+                                    <h4 class="text-xs font-bold text-slate-200">Express Shipping</h4>
+                                    <p class="text-[11px] text-slate-400">All Pakistan Delivery</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-9 h-9 rounded-lg bg-surface border border-white/10 flex items-center justify-center text-emerald-400">
+                                    <i class="fa-solid fa-money-bill-wave"></i>
+                                </div>
+                                <div class="text-left">
+                                    <h4 class="text-xs font-bold text-slate-200">Cash On Delivery</h4>
+                                    <p class="text-[11px] text-slate-400">Pay at Doorstep</p>
+                                </div>
+                            </div>
+                            <div class="col-span-2 sm:col-span-1 flex items-center gap-3">
+                                <div class="w-9 h-9 rounded-lg bg-surface border border-white/10 flex items-center justify-center text-amber-400">
+                                    <i class="fa-solid fa-shield-halved"></i>
+                                </div>
+                                <div class="text-left">
+                                    <h4 class="text-xs font-bold text-slate-200">1 Year Warranty</h4>
+                                    <p class="text-[11px] text-slate-400">Official Guarantee</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- 3D Cinematic Interactive Watch Canvas Container -->
+                    <div class="lg:col-span-5 relative flex justify-center items-center">
+                        <div class="relative w-full aspect-square max-w-md lg:max-w-none rounded-3xl glass-card p-4 overflow-hidden border border-white/15 shadow-2xl flex items-center justify-center">
+                            
+                            <!-- Glowing Ambient Ring behind 3D canvas -->
+                            <div class="absolute inset-0 bg-gradient-to-tr from-indigo-500/20 via-transparent to-slate-200/10 pointer-events-none"></div>
+                            
+                            <!-- Canvas Element for Three.js -->
+                            <div id="watch3dCanvas" class="w-full h-full cursor-grab active:cursor-grabbing"></div>
+
+                            <!-- Interactive Tooltip Overlay -->
+                            <div class="absolute bottom-4 left-4 right-4 glass-panel py-2 px-4 rounded-xl flex items-center justify-between text-xs text-slate-300 pointer-events-none border border-white/10">
+                                <span class="flex items-center gap-2">
+                                    <i class="fa-solid fa-hand-pointer text-indigo-400 animate-bounce"></i> Drag to rotate 3D Watch
+                                </span>
+                                <span class="font-mono text-[10px] text-slate-400">CHRONO-3000 EDITION</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- FEATURED COLLECTION & CATEGORIES -->
+        <section id="collections" class="py-20 bg-obsidian relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <!-- Section Header -->
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+                    <div>
+                        <span class="text-indigo-400 font-mono text-xs tracking-widest uppercase">Curated Catalog</span>
+                        <h2 class="text-3xl sm:text-5xl font-extrabold chrome-text uppercase tracking-tight mt-1">
+                            Featured Collection
+                        </h2>
+                    </div>
+
+                    <!-- Filter Category Tabs -->
+                    <div class="flex flex-wrap gap-2 glass-panel p-1.5 rounded-2xl border border-white/10 self-start md:self-auto" id="categoryFilterContainer">
+                        <button data-category="all" class="filter-btn active px-4 py-2 rounded-xl text-xs font-semibold tracking-wide transition-all bg-white text-obsidian shadow-chrome-glow">All</button>
+                        <button data-category="men" class="filter-btn px-4 py-2 rounded-xl text-xs font-semibold tracking-wide text-slate-300 hover:text-white transition-all">Men's</button>
+                        <button data-category="women" class="filter-btn px-4 py-2 rounded-xl text-xs font-semibold tracking-wide text-slate-300 hover:text-white transition-all">Women's</button>
+                        <button data-category="unisex" class="filter-btn px-4 py-2 rounded-xl text-xs font-semibold tracking-wide text-slate-300 hover:text-white transition-all">Unisex</button>
+                        <button data-category="luxury" class="filter-btn px-4 py-2 rounded-xl text-xs font-semibold tracking-wide text-slate-300 hover:text-white transition-all">Luxury Edition</button>
+                    </div>
+                </div>
+
+                <!-- Product Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8" id="productGrid">
+                    <!-- Products rendered via JavaScript dynamic loop -->
+                </div>
+            </div>
+        </section>
+
+        <!-- AI SHOPPING ASSISTANT ("TimelyAI") -->
+        <section id="ai-assistant" class="py-20 relative bg-surface border-y border-white/10">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-2xl mx-auto mb-10">
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-xs font-mono mb-3">
+                        <i class="fa-solid fa-robot"></i> AI CONCIERGE
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold chrome-text uppercase">TimelyAI Shopping Assistant</h2>
+                    <p class="text-slate-400 text-sm mt-2">Unsure which timepiece fits your style or budget? Ask our intelligent assistant for instant recommendations.</p>
+                </div>
+
+                <!-- Chat Box Interface -->
+                <div class="glass-card rounded-3xl border border-white/10 overflow-hidden shadow-2xl">
+                    <!-- Chat Header -->
+                    <div class="p-4 bg-obsidian/80 border-b border-white/10 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></div>
+                            <div>
+                                <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                                    TimelyStyle AI Stylist
+                                    <span class="text-[10px] font-mono bg-white/10 px-2 py-0.5 rounded text-slate-300">ONLINE</span>
+                                </h3>
+                            </div>
+                        </div>
+                        <button id="clearChatBtn" class="text-xs text-slate-400 hover:text-white transition-colors">
+                            <i class="fa-solid fa-rotate-right mr-1"></i> Reset
+                        </button>
+                    </div>
+
+                    <!-- Chat Messages Stream -->
+                    <div id="chatMessages" class="p-6 h-80 overflow-y-auto space-y-4 chat-scroll bg-obsidian/40">
+                        <!-- Default Initial AI Message -->
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-indigo-600/30 border border-indigo-500/50 flex items-center justify-center text-indigo-400 text-xs shrink-0">
+                                <i class="fa-solid fa-sparkles"></i>
+                            </div>
+                            <div class="bg-surface-card border border-white/10 p-4 rounded-2xl rounded-tl-none text-slate-200 text-sm max-w-md space-y-2">
+                                <p>Greetings! I am your TimelyStyle AI concierge. How may I assist you today?</p>
+                                <p class="text-xs text-slate-400">Feel free to tap one of the suggested prompts below or ask anything about our collections and cash on delivery!</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Prompt Chips -->
+                    <div class="px-6 py-3 border-t border-white/10 bg-obsidian/60 overflow-x-auto whitespace-nowrap flex gap-2" id="promptChips">
+                        <button class="prompt-chip px-3 py-1.5 rounded-full glass-panel border border-white/10 text-xs text-slate-300 hover:border-indigo-400 hover:text-white transition-all shrink-0">
+                            Suggest a watch for formal events 🎩
+                        </button>
+                        <button class="prompt-chip px-3 py-1.5 rounded-full glass-panel border border-white/10 text-xs text-slate-300 hover:border-indigo-400 hover:text-white transition-all shrink-0">
+                            Watches under PKR 15,000 💰
+                        </button>
+                        <button class="prompt-chip px-3 py-1.5 rounded-full glass-panel border border-white/10 text-xs text-slate-300 hover:border-indigo-400 hover:text-white transition-all shrink-0">
+                            What's your best seller? 🔥
+                        </button>
+                        <button class="prompt-chip px-3 py-1.5 rounded-full glass-panel border border-white/10 text-xs text-slate-300 hover:border-indigo-400 hover:text-white transition-all shrink-0">
+                            Delivery info for Pakistan 🇵🇰
+                        </button>
+                    </div>
+
+                    <!-- Input Form -->
+                    <form id="aiChatForm" class="p-4 bg-obsidian/90 border-t border-white/10 flex gap-3">
+                        <input type="text" id="aiInput" placeholder="Ask TimelyAI about watches, prices, or delivery..." class="flex-grow bg-surface border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-colors">
+                        <button type="submit" class="px-6 py-3 bg-white text-obsidian rounded-xl font-bold text-xs uppercase tracking-wider hover:bg-slate-200 transition-all flex items-center gap-2 shrink-0">
+                            <span>Send</span>
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ABOUT TIMELYSTYLE BRAND SECTION -->
+        <section id="about" class="py-20 bg-obsidian relative overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    
+                    <div class="space-y-6">
+                        <span class="text-indigo-400 font-mono text-xs tracking-widest uppercase">The Heritage & Vision</span>
+                        <h2 class="text-3xl sm:text-5xl font-extrabold chrome-text uppercase tracking-tight">
+                            Redefining Time In Pakistan
+                        </h2>
+                        <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
+                            At <strong class="text-white">TimelyStyle</strong>, we bridge the gap between high-end luxury aesthetics and modern futuristic design. Crafted for individuals who make every second count, our timepieces offer unmatched craftsmanship, high-grade stainless steel chasses, and ultra-durable quartz and automatic movements.
+                        </p>
+                        <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
+                            We take pride in providing a seamless shopping experience tailored specifically for watch lovers across Pakistan. With reliable Cash on Delivery (COD) and fast insured dispatch, luxury is always within your reach.
+                        </p>
+
+                        <div class="grid grid-cols-2 gap-6 pt-4">
+                            <div class="glass-panel p-4 rounded-2xl border border-white/10">
+                                <div class="text-2xl font-black chrome-text">100% COD</div>
+                                <div class="text-xs text-slate-400 mt-1">Cash on Delivery across all cities in Pakistan</div>
+                            </div>
+                            <div class="glass-panel p-4 rounded-2xl border border-white/10">
+                                <div class="text-2xl font-black chrome-text">Premium Grade</div>
+                                <div class="text-xs text-slate-400 mt-1">Anti-scratch glass & water resistant chassis</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Visual Accent Card -->
+                    <div class="relative">
+                        <div class="glass-card p-8 rounded-3xl border border-white/10 relative z-10 space-y-6">
+                            <div class="w-12 h-12 rounded-2xl bg-indigo-500/20 border border-indigo-500/40 flex items-center justify-center text-indigo-400 text-xl">
+                                <i class="fa-solid fa-gem"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white">The Precision Guarantee</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed">
+                                Every single TimelyStyle watch undergoes rigorous multi-point quality testing prior to dispatch. From case sealing to movement calibration, we ensure perfection before it arrives at your doorstep.
+                            </p>
+                            <a href="https://wa.me/message/7YYF46SE7MTMM1" target="_blank" class="inline-flex items-center gap-2 text-xs font-bold text-emerald-400 hover:text-emerald-300 tracking-wider uppercase">
+                                <span>Speak with Our Master Stylist</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                        </div>
+                        <div class="absolute -bottom-6 -right-6 w-full h-full bg-gradient-to-tr from-indigo-500/20 to-transparent rounded-3xl blur-2xl pointer-events-none"></div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer id="contact" class="bg-surface border-t border-white/10 py-16 text-slate-400 text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                
+                <!-- Brand Info -->
+                <div class="space-y-4 md:col-span-1">
+                    <a href="#home" class="flex items-center gap-3">
+                        <span class="text-xl font-black chrome-text uppercase tracking-wider">TimelyStyle</span>
+                    </a>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Luxury & Futuristic timepieces designed for style icons. Cash on Delivery available throughout Pakistan.
+                    </p>
+                    <div class="flex items-center gap-3 text-slate-300">
+                        <a href="https://wa.me/message/7YYF46SE7MTMM1" target="_blank" class="w-9 h-9 rounded-xl glass-panel flex items-center justify-center hover:text-emerald-400 hover:border-emerald-500/50 transition-all">
+                            <i class="fa-brands fa-whatsapp text-base"></i>
+                        </a>
+                        <a href="#" class="w-9 h-9 rounded-xl glass-panel flex items-center justify-center hover:text-indigo-400 hover:border-indigo-500/50 transition-all">
+                            <i class="fa-brands fa-instagram text-base"></i>
+                        </a>
+                        <a href="#" class="w-9 h-9 rounded-xl glass-panel flex items-center justify-center hover:text-blue-400 hover:border-blue-500/50 transition-all">
+                            <i class="fa-brands fa-facebook text-base"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Navigation Links -->
+                <div class="space-y-3">
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider font-mono">Quick Links</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#home" class="hover:text-white transition-colors">Home</a></li>
+                        <li><a href="#collections" class="hover:text-white transition-colors">Featured Collections</a></li>
+                        <li><a href="#ai-assistant" class="hover:text-white transition-colors">TimelyAI Concierge</a></li>
+                        <li><a href="#about" class="hover:text-white transition-colors">About Brand</a></li>
+                    </ul>
+                </div>
+
+                <!-- Shopping Services -->
+                <div class="space-y-3">
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider font-mono">Customer Care</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="https://wa.me/message/7YYF46SE7MTMM1" target="_blank" class="hover:text-white transition-colors">WhatsApp Direct Support</a></li>
+                        <li><span class="text-slate-400">Cash on Delivery (COD)</span></li>
+                        <li><span class="text-slate-400">All Pakistan Courier Service</span></li>
+                        <li><span class="text-slate-400">7-Day Replacement Guarantee</span></li>
+                    </ul>
+                </div>
+
+                <!-- WhatsApp Quick Order Banner -->
+                <div class="space-y-3 glass-panel p-4 rounded-2xl border border-white/10">
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider font-mono flex items-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-emerald-400 text-sm"></i> Order Directly
+                    </h4>
+                    <p class="text-xs text-slate-400">
+                        Prefer ordering on WhatsApp? Chat with our sales team immediately.
+                    </p>
+                    <a href="https://wa.me/message/7YYF46SE7MTMM1" target="_blank" class="block w-full text-center py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider transition-all">
+                        Chat on WhatsApp
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+                <p>&copy; 2026 TimelyStyle. All rights reserved. Designed for GitHub Pages deployment.</p>
+                <div class="flex items-center gap-4">
+                    <span>Terms & Conditions</span>
+                    <span>Privacy Policy</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SHOPPING CART SLIDE-OVER DRAWER -->
+    <div id="cartModal" class="fixed inset-0 z-50 overflow-hidden hidden transition-opacity duration-300">
+        <div class="absolute inset-0 bg-obsidian/80 backdrop-blur-sm" id="cartOverlay"></div>
+
+        <div class="fixed inset-y-0 right-0 max-w-full flex pl-10">
+            <div class="w-screen max-w-md glass-panel border-l border-white/10 bg-obsidian/95 flex flex-col justify-between shadow-2xl">
+                
+                <!-- Drawer Header -->
+                <div class="p-6 border-b border-white/10 flex items-center justify-between">
+                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-bag-shopping text-indigo-400"></i> Your Shopping Bag
+                    </h3>
+                    <button id="closeCartBtn" class="text-slate-400 hover:text-white p-2">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                </div>
+
+                <!-- Drawer Items List -->
+                <div class="flex-1 p-6 overflow-y-auto space-y-4 chat-scroll" id="cartItemsContainer">
+                    <!-- Populated dynamically by script -->
+                </div>
+
+                <!-- Drawer Footer & WhatsApp Checkout -->
+                <div class="p-6 border-t border-white/10 space-y-4 bg-surface">
+                    <div class="flex justify-between text-sm">
+                        <span class="text-slate-400">Subtotal:</span>
+                        <span id="cartSubtotal" class="font-bold text-white">PKR 0</span>
+                    </div>
+                    <div class="flex justify-between text-xs text-slate-400">
+                        <span>Delivery Charge (Pakistan):</span>
+                        <span class="text-emerald-400 font-semibold">FREE (COD)</span>
+                    </div>
+                    <div class="pt-2 border-t border-white/10 flex justify-between text-base">
+                        <span class="font-bold text-white">Total Amount:</span>
+                        <span id="cartTotal" class="font-black chrome-text text-lg">PKR 0</span>
+                    </div>
+
+                    <button id="whatsappCheckoutBtn" class="w-full py-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm uppercase tracking-wider transition-all flex items-center justify-center gap-3 shadow-emerald-glow">
+                        <i class="fa-brands fa-whatsapp text-xl"></i>
+                        <span>Checkout via WhatsApp</span>
+                    </button>
+                    <p class="text-[11px] text-slate-400 text-center">
+                        <i class="fa-solid fa-truck-fast text-emerald-400 mr-1"></i> Cash on Delivery automatically applied to your order.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- QUICK VIEW PRODUCT MODAL -->
+    <div id="productModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+        <div class="absolute inset-0 bg-obsidian/85 backdrop-blur-md" id="productModalOverlay"></div>
+        
+        <div class="relative w-full max-w-2xl glass-card rounded-3xl border border-white/15 p-6 sm:p-8 overflow-hidden z-10 max-h-[90vh] overflow-y-auto chat-scroll">
+            <button id="closeProductModalBtn" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2 z-20">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+
+            <div id="modalProductDetails" class="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
+                <!-- Modal details rendered dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC & APPLICATION STATE -->
+    <script>
+        
+        // WhatsApp Official Store Base Link
+        const WHATSAPP_BASE_URL = "https://wa.me/message/7YYF46SE7MTMM1";
+
+        // Watch Products Catalog Data
+        const WATCH_PRODUCTS = [
+            {
+                id: "w1",
+                name: "Chrono Chrome 3000",
+                category: "luxury",
+                categoryLabel: "Luxury Collection",
+                originalPrice: 22500,
+                discountPrice: 16999,
+                badge: "BESTSELLER",
+                description: "Futuristic skeleton dial with metallic chrome casing and precision automatic movement.",
+                image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=80",
+                specs: ["Automatic Self-Wind", "Sapphire Glass", "316L Stainless Steel", "50m Water Resistance"]
+            },
+            {
+                id: "w2",
+                name: "Obsidian Phantom",
+                category: "men",
+                categoryLabel: "Men's Collection",
+                originalPrice: 18000,
+                discountPrice: 13499,
+                badge: "NEW",
+                description: "Deep jet-black matte chassis with sleek luminescent indicators for ultimate stealth elegance.",
+                image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+                specs: ["Quartz Precision", "Matte Black PVD", "Scratch Resistant", "Leather Strap"]
+            },
+            {
+                id: "w3",
+                name: "Nebula Diamond Lux",
+                category: "women",
+                categoryLabel: "Women's Collection",
+                originalPrice: 26000,
+                discountPrice: 19999,
+                badge: "LUXURY",
+                description: "Iridescent mother-of-pearl dial trimmed with glowing accents and brilliant chrome finish.",
+                image: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=800&q=80",
+                specs: ["Swiss Quartz Movement", "Crystal Accents", "Rose Gold & Chrome", "Butterfly Clasp"]
+            },
+            {
+                id: "w4",
+                name: "Cyber Elegance Dual",
+                category: "unisex",
+                categoryLabel: "Unisex Collection",
+                originalPrice: 16500,
+                discountPrice: 11999,
+                badge: "POPULAR",
+                description: "Minimalist dual-time dial showcasing futuristic architectural geometric design.",
+                image: "https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=800&q=80",
+                specs: ["Dual Time Display", "Unisex Mesh Band", "Ultra Slim 7mm", "Water Resistant"]
+            },
+            {
+                id: "w5",
+                name: "Royal Sovereign Tourbillon",
+                category: "luxury",
+                categoryLabel: "Luxury Collection",
+                originalPrice: 35000,
+                discountPrice: 27999,
+                badge: "LIMITED EDITION",
+                description: "Exquisite exposed tourbillon cage with hand-crafted polished chrome frame.",
+                image: "https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?auto=format&fit=crop&w=800&q=80",
+                specs: ["Mechanical Tourbillon", "Alligator Pattern Leather", "Exhibition Caseback", "Premium Gift Box"]
+            },
+            {
+                id: "w6",
+                name: "Silver Zenith Stealth",
+                category: "men",
+                categoryLabel: "Men's Collection",
+                originalPrice: 19500,
+                discountPrice: 14999,
+                badge: "HOT",
+                description: "Brushed silver chrome casing paired with a deep obsidian sunray chronograph dial.",
+                image: "https://images.unsplash.com/photo-1533139502658-0198f920d8e8?auto=format&fit=crop&w=800&q=80",
+                specs: ["Full Chronograph", "Stainless Bracelet", "Luminous Hands", "Date Window"]
+            }
+        ];
+
+        // Shopping Cart Application State
+        let cartState = [];
+
+        // Formatting Currency in PKR
+        function formatPKR(amount) {
+            return 'PKR ' + amount.toLocaleString('en-PK');
+        }
+
+        // Render Product Cards Grid
+        function renderProducts(categoryFilter = 'all') {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = '';
+
+            const filtered = categoryFilter === 'all' 
+                ? WATCH_PRODUCTS 
+                : WATCH_PRODUCTS.filter(p => p.category === categoryFilter);
+
+            filtered.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'glass-card rounded-3xl overflow-hidden flex flex-col justify-between group relative';
+                
+                card.innerHTML = `
+                    <div class="relative overflow-hidden bg-surface-card aspect-square">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-transparent to-transparent opacity-80"></div>
+                        
+                        <!-- Top Badge -->
+                        <span class="absolute top-4 left-4 px-3 py-1 rounded-full glass-panel border border-white/10 text-[10px] font-mono font-bold text-white tracking-wider">
+                            ${product.badge}
+                        </span>
+
+                        <!-- Quick View Button -->
+                        <button onclick="openProductModal('${product.id}')" class="absolute bottom-4 right-4 p-3 rounded-xl glass-panel text-white hover:bg-white hover:text-obsidian transition-all shadow-lg">
+                            <i class="fa-solid fa-expand text-xs"></i>
+                        </button>
+                    </div>
+
+                    <div class="p-6 space-y-4 flex-grow flex flex-col justify-between">
+                        <div class="space-y-1">
+                            <span class="text-[11px] font-mono text-indigo-400 uppercase">${product.categoryLabel}</span>
+                            <h3 class="text-lg font-bold text-white group-hover:text-indigo-300 transition-colors">${product.name}</h3>
+                            <p class="text-slate-400 text-xs line-clamp-2">${product.description}</p>
+                        </div>
+
+                        <div class="space-y-3 pt-3 border-t border-white/10">
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-lg font-black text-white">${formatPKR(product.discountPrice)}</span>
+                                <span class="text-xs text-slate-500 line-through">${formatPKR(product.originalPrice)}</span>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-2">
+                                <button onclick="addToCart('${product.id}')" class="py-2.5 rounded-xl bg-surface border border-white/15 hover:border-white/40 text-slate-200 font-bold text-xs uppercase transition-all flex items-center justify-center gap-1.5">
+                                    <i class="fa-solid fa-cart-plus"></i> Add
+                                </button>
+                                <a href="${buildWhatsAppLink(product.name, product.discountPrice)}" target="_blank" class="py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 shadow-emerald-glow">
+                                    <i class="fa-brands fa-whatsapp text-sm"></i> Order
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // WhatsApp Direct Link Generator for Specific Product
+        function buildWhatsAppLink(productName, price) {
+            const message = encodeURIComponent(`Hello TimelyStyle! I would like to order "${productName}" priced at ${formatPKR(price)} via Cash on Delivery.`);
+            return `${WHATSAPP_BASE_URL}?text=${message}`;
+        }
+
+        // Cart Management Functions
+        function addToCart(productId) {
+            const product = WATCH_PRODUCTS.find(p => p.id === productId);
+            if (!product) return;
+
+            const existing = cartState.find(item => item.id === productId);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cartState.push({ ...product, quantity: 1 });
+            }
+
+            updateCartUI();
+            openCartModal();
+        }
+
+        function removeFromCart(productId) {
+            cartState = cartState.filter(item => item.id !== productId);
+            updateCartUI();
+        }
+
+        function updateQuantity(productId, delta) {
+            const item = cartState.find(item => item.id === productId);
+            if (item) {
+                item.quantity += delta;
+                if (item.quantity <= 0) {
+                    removeFromCart(productId);
+                } else {
+                    updateCartUI();
+                }
+            }
+        }
+
+        function updateCartUI() {
+            const cartItemsContainer = document.getElementById('cartItemsContainer');
+            const cartBadge = document.getElementById('cartBadge');
+            const cartSubtotal = document.getElementById('cartSubtotal');
+            const cartTotal = document.getElementById('cartTotal');
+
+            // Badge Count
+            const totalItems = cartState.reduce((sum, item) => sum + item.quantity, 0);
+            if (totalItems > 0) {
+                cartBadge.innerText = totalItems;
+                cartBadge.classList.remove('hidden');
+            } else {
+                cartBadge.classList.add('hidden');
+            }
+
+            // Cart Items HTML
+            if (cartState.length === 0) {
+                cartItemsContainer.innerHTML = `
+                    <div class="text-center py-12 space-y-3">
+                        <i class="fa-solid fa-bag-shopping text-4xl text-slate-600"></i>
+                        <p class="text-sm text-slate-400">Your shopping bag is empty.</p>
+                        <a href="#collections" onclick="closeCartModal()" class="inline-block px-4 py-2 rounded-xl bg-white text-obsidian font-bold text-xs uppercase">Start Shopping</a>
+                    </div>
+                `;
+            } else {
+                cartItemsContainer.innerHTML = cartState.map(item => `
+                    <div class="flex gap-4 p-3 rounded-2xl glass-card border border-white/10 items-center">
+                        <img src="${item.image}" alt="${item.name}" class="w-16 h-16 rounded-xl object-cover shrink-0">
+                        <div class="flex-grow space-y-1">
+                            <h4 class="text-xs font-bold text-white">${item.name}</h4>
+                            <p class="text-xs text-indigo-400 font-semibold">${formatPKR(item.discountPrice)}</p>
+                            <div class="flex items-center gap-2 pt-1">
+                                <button onclick="updateQuantity('${item.id}', -1)" class="w-6 h-6 rounded-lg bg-surface border border-white/10 text-xs text-slate-300">-</button>
+                                <span class="text-xs font-mono text-white">${item.quantity}</span>
+                                <button onclick="updateQuantity('${item.id}', 1)" class="w-6 h-6 rounded-lg bg-surface border border-white/10 text-xs text-slate-300">+</button>
+                            </div>
+                        </div>
+                        <button onclick="removeFromCart('${item.id}')" class="text-slate-500 hover:text-red-400 p-2">
+                            <i class="fa-solid fa-trash-can text-sm"></i>
+                        </button>
+                    </div>
+                `).join('');
+            }
+
+            // Calculations
+            const grandTotal = cartState.reduce((sum, item) => sum + (item.discountPrice * item.quantity), 0);
+            cartSubtotal.innerText = formatPKR(grandTotal);
+            cartTotal.innerText = formatPKR(grandTotal);
+
+            // WhatsApp Checkout Link Builder
+            const whatsappCheckoutBtn = document.getElementById('whatsappCheckoutBtn');
+            whatsappCheckoutBtn.onclick = () => {
+                if (cartState.length === 0) return;
+                
+                let summary = "Hello TimelyStyle! I would like to place an order via Cash On Delivery:\n\n";
+                cartState.forEach(item => {
+                    summary += `• ${item.name} (Qty: ${item.quantity}) - ${formatPKR(item.discountPrice * item.quantity)}\n`;
+                });
+                summary += `\n*Total Amount:* ${formatPKR(grandTotal)}`;
+                summary += `\n*Payment Mode:* Cash On Delivery (COD)`;
+                summary += `\n*Delivery:* Anywhere in Pakistan`;
+
+                window.open(`${WHATSAPP_BASE_URL}?text=${encodeURIComponent(summary)}`, '_blank');
+            };
+        }
+
+        // Cart Drawer Controls
+        function openCartModal() {
+            document.getElementById('cartModal').classList.remove('hidden');
+        }
+        function closeCartModal() {
+            document.getElementById('cartModal').classList.add('hidden');
+        }
+
+        // Quick View Product Modal
+        function openProductModal(productId) {
+            const product = WATCH_PRODUCTS.find(p => p.id === productId);
+            if (!product) return;
+
+            const modalDetails = document.getElementById('modalProductDetails');
+            modalDetails.innerHTML = `
+                <div class="rounded-2xl overflow-hidden aspect-square bg-surface-card border border-white/10">
+                    <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover">
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <span class="text-xs font-mono text-indigo-400 uppercase">${product.categoryLabel}</span>
+                        <h3 class="text-2xl font-bold text-white mt-1">${product.name}</h3>
+                        <p class="text-xs text-slate-400 mt-2 leading-relaxed">${product.description}</p>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="text-xs font-mono text-slate-300 uppercase">Key Specifications:</h4>
+                        <ul class="space-y-1">
+                            ${product.specs.map(spec => `<li class="text-xs text-slate-400 flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400 text-[10px]"></i> ${spec}</li>`).join('')}
+                        </ul>
+                    </div>
+
+                    <div class="pt-4 border-t border-white/10 space-y-3">
+                        <div class="flex items-baseline gap-2">
+                            <span class="text-2xl font-black text-white">${formatPKR(product.discountPrice)}</span>
+                            <span class="text-sm text-slate-500 line-through">${formatPKR(product.originalPrice)}</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button onclick="addToCart('${product.id}'); closeProductModal();" class="py-3 rounded-xl bg-white text-obsidian font-bold text-xs uppercase tracking-wider hover:bg-slate-200">
+                                Add To Cart
+                            </button>
+                            <a href="${buildWhatsAppLink(product.name, product.discountPrice)}" target="_blank" class="py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2">
+                                <i class="fa-brands fa-whatsapp"></i> Buy Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('productModal').classList.remove('hidden');
+        }
+
+        function closeProductModal() {
+            document.getElementById('productModal').classList.add('hidden');
+        }
+
+        // AI Shopping Concierge Chat Logic
+        const chatMessages = document.getElementById('chatMessages');
+        const aiChatForm = document.getElementById('aiChatForm');
+        const aiInput = document.getElementById('aiInput');
+
+        function appendMessage(sender, text) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `flex items-start gap-3 ${sender === 'user' ? 'justify-end' : ''}`;
+            
+            if (sender === 'user') {
+                msgDiv.innerHTML = `
+                    <div class="bg-indigo-600 text-white p-4 rounded-2xl rounded-tr-none text-sm max-w-md">
+                        <p>${text}</p>
+                    </div>
+                `;
+            } else {
+                msgDiv.innerHTML = `
+                    <div class="w-8 h-8 rounded-lg bg-indigo-600/30 border border-indigo-500/50 flex items-center justify-center text-indigo-400 text-xs shrink-0">
+                        <i class="fa-solid fa-sparkles"></i>
+                    </div>
+                    <div class="bg-surface-card border border-white/10 p-4 rounded-2xl rounded-tl-none text-slate-200 text-sm max-w-md space-y-2">
+                        <p>${text}</p>
+                    </div>
+                `;
+            }
+            
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function generateAIResponse(userInput) {
+            const input = userInput.toLowerCase();
+            let reply = "";
+
+            if (input.includes('formal') || input.includes('event') || input.includes('suit')) {
+                reply = "For formal occasions, I highly recommend the **Royal Sovereign Tourbillon** or the **Nebula Diamond Lux**. Their luxurious finishes elevate formal attire effortlessly.";
+            } else if (input.includes('15,000') || input.includes('under') || input.includes('budget') || input.includes('cheap')) {
+                reply = "Looking for great value under PKR 15,000? Check out the **Cyber Elegance Dual** (PKR 11,999) or the **Obsidian Phantom** (PKR 13,499).";
+            } else if (input.includes('best seller') || input.includes('popular')) {
+                reply = "Our top bestseller across Pakistan is the **Chrono Chrome 3000** (PKR 16,999). It features a futuristic skeleton dial with automatic self-winding motion.";
+            } else if (input.includes('delivery') || input.includes('pakistan') || input.includes('cod') || input.includes('shipping')) {
+                reply = "We offer **Cash on Delivery (COD)** all over Pakistan! Standard delivery takes 2 to 4 business days directly to your doorstep.";
+            } else {
+                reply = "Thank you for asking! All TimelyStyle timepieces feature premium stainless steel, water resistance, and an official 1-year warranty. Would you like to check out our Men's or Luxury collections?";
+            }
+
+            setTimeout(() => {
+                appendMessage('ai', reply);
+            }, 600);
+        }
+
+        aiChatForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const query = aiInput.value.trim();
+            if (!query) return;
+
+            appendMessage('user', query);
+            aiInput.value = '';
+            generateAIResponse(query);
+        });
+
+        // Prompt Chips Listeners
+        document.querySelectorAll('.prompt-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                const text = chip.innerText.trim();
+                appendMessage('user', text);
+                generateAIResponse(text);
+            });
+        });
+
+        document.getElementById('clearChatBtn').addEventListener('click', () => {
+            chatMessages.innerHTML = `
+                <div class="flex items-start gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-600/30 border border-indigo-500/50 flex items-center justify-center text-indigo-400 text-xs shrink-0">
+                        <i class="fa-solid fa-sparkles"></i>
+                    </div>
+                    <div class="bg-surface-card border border-white/10 p-4 rounded-2xl rounded-tl-none text-slate-200 text-sm max-w-md space-y-2">
+                        <p>Chat reset. How may I assist you with TimelyStyle watches today?</p>
+                    </div>
+                </div>
+            `;
+        });
+
+        // 3D Three.js Interactive Watch Showcase Canvas
+        function init3dWatch() {
+            const container = document.getElementById('watch3dCanvas');
+            if (!container) return;
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+            
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            container.appendChild(renderer.domElement);
+
+            // Watch Group Object
+            const watchGroup = new THREE.Group();
+
+            // Metallic Ring / Bezel (Futuristic Metallic Chrome)
+            const ringGeometry = new THREE.TorusGeometry(2.2, 0.3, 16, 100);
+            const chromeMaterial = new THREE.MeshStandardMaterial({
+                color: 0xe2e8f0,
+                metalness: 0.9,
+                roughness: 0.1
+            });
+            const bezel = new THREE.Mesh(ringGeometry, chromeMaterial);
+            watchGroup.add(bezel);
+
+            // Dark Obsidian Dial Face
+            const dialGeometry = new THREE.CylinderGeometry(2.1, 2.1, 0.1, 64);
+            const dialMaterial = new THREE.MeshStandardMaterial({
+                color: 0x0a0a0c,
+                metalness: 0.5,
+                roughness: 0.3
+            });
+            const dial = new THREE.Mesh(dialGeometry, dialMaterial);
+            dial.rotation.x = Math.PI / 2;
+            watchGroup.add(dial);
+
+            // Glowing Indicator Accents (Hour markers)
+            for (let i = 0; i < 12; i++) {
+                const angle = (i / 12) * Math.PI * 2;
+                const markerGeo = new THREE.BoxGeometry(0.1, 0.4, 0.05);
+                const markerMat = new THREE.MeshStandardMaterial({
+                    color: 0x818cf8,
+                    emissive: 0x818cf8,
+                    emissiveIntensity: 0.8
+                });
+                const marker = new THREE.Mesh(markerGeo, markerMat);
+                marker.position.x = Math.cos(angle) * 1.7;
+                marker.position.y = Math.sin(angle) * 1.7;
+                marker.position.z = 0.1;
+                marker.rotation.z = angle - Math.PI / 2;
+                watchGroup.add(marker);
+            }
+
+            // Watch Strap (Top & Bottom Metallic Joints)
+            const strapGeo = new THREE.BoxGeometry(1.6, 2.5, 0.2);
+            const strapMat = new THREE.MeshStandardMaterial({ color: 0x181a22, roughness: 0.7 });
+            
+            const topStrap = new THREE.Mesh(strapGeo, strapMat);
+            topStrap.position.y = 3.2;
+            watchGroup.add(topStrap);
+
+            const bottomStrap = new THREE.Mesh(strapGeo, strapMat);
+            bottomStrap.position.y = -3.2;
+            watchGroup.add(bottomStrap);
+
+            scene.add(watchGroup);
+
+            // Lighting Setup
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+            scene.add(ambientLight);
+
+            const pointLight = new THREE.PointLight(0x818cf8, 2, 50);
+            pointLight.position.set(5, 5, 5);
+            scene.add(pointLight);
+
+            const pointLight2 = new THREE.PointLight(0xffffff, 1.5, 50);
+            pointLight2.position.set(-5, -5, 5);
+            scene.add(pointLight2);
+
+            camera.position.z = 8;
+
+            // Interactive Mouse Rotation Logic
+            let isDragging = false;
+            let previousMousePosition = { x: 0, y: 0 };
+
+            container.addEventListener('mousedown', () => isDragging = true);
+            window.addEventListener('mouseup', () => isDragging = false);
+
+            container.addEventListener('mousemove', (e) => {
+                if (isDragging) {
+                    const deltaMove = {
+                        x: e.clientX - previousMousePosition.x,
+                        y: e.clientY - previousMousePosition.y
+                    };
+                    watchGroup.rotation.y += deltaMove.x * 0.01;
+                    watchGroup.rotation.x += deltaMove.y * 0.01;
+                }
+                previousMousePosition = { x: e.clientX, y: e.clientY };
+            });
+
+            // Touch support for Android/Mobile views
+            container.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+            });
+            window.addEventListener('touchend', () => isDragging = false);
+            container.addEventListener('touchmove', (e) => {
+                if (isDragging) {
+                    const deltaMove = {
+                        x: e.touches[0].clientX - previousMousePosition.x,
+                        y: e.touches[0].clientY - previousMousePosition.y
+                    };
+                    watchGroup.rotation.y += deltaMove.x * 0.01;
+                    watchGroup.rotation.x += deltaMove.y * 0.01;
+                    previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+                }
+            });
+
+            // Render Loop
+            function animate() {
+                requestAnimationFrame(animate);
+                if (!isDragging) {
+                    watchGroup.rotation.y += 0.005; // Slow ambient rotation
+                }
+                renderer.render(scene, camera);
+            }
+
+            animate();
+
+            // Resize Listener
+            window.addEventListener('resize', () => {
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
+        }
+
+        // Initialization on DOM Ready
+        window.addEventListener('DOMContentLoaded', () => {
+            renderProducts('all');
+            init3dWatch();
+
+            // Category Filter Buttons Listener
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => {
+                        b.classList.remove('bg-white', 'text-obsidian', 'shadow-chrome-glow');
+                        b.classList.add('text-slate-300');
+                    });
+                    btn.classList.add('bg-white', 'text-obsidian', 'shadow-chrome-glow');
+                    btn.classList.remove('text-slate-300');
+                    renderProducts(btn.dataset.category);
+                });
+            });
+
+            // Mobile Navigation Drawer Toggle
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileDrawer = document.getElementById('mobileDrawer');
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileDrawer.classList.toggle('hidden');
+            });
+
+            document.querySelectorAll('.mobile-link').forEach(link => {
+                link.addEventListener('click', () => mobileDrawer.classList.add('hidden'));
+            });
+
+            // Cart Modal Listeners
+            document.getElementById('cartBtn').addEventListener('click', openCartModal);
+            document.getElementById('closeCartBtn').addEventListener('click', closeCartModal);
+            document.getElementById('cartOverlay').addEventListener('click', closeCartModal);
+
+            // Product Quick View Modal Listeners
+            document.getElementById('closeProductModalBtn').addEventListener('click', closeProductModal);
+            document.getElementById('productModalOverlay').addEventListener('click', closeProductModal);
+        });
+    </script>
+</body>
+</html>
